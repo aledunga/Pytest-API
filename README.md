@@ -14,7 +14,7 @@ Running the Tests Locally
 
 * Next, create and activate a virtual environment:
 
-        virtualenv ve-orders -p python3
+        virtualenv venv -p python3
         source venv/bin/activate
 
 * Export the authentication token / API key into `AUTH_TOKEN` / `API_KEY` environment variable:

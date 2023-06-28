@@ -2,16 +2,6 @@ import json
 from http import HTTPStatus
 
 import requests
-import re
-
-# q: is it better to leave this as a function outside the class, or inside the class as a method? test
-
-def isValid(email):
-    regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
-    if re.fullmatch(regex, email):
-        return True
-    else:
-        return False
 
 
 class TestRetrieveUsers:
@@ -56,7 +46,7 @@ class TestRetrieveUsers:
 
         assert 2 == int(response_body["total_pages"])
 
-    def test_retrieve_users_data(self, list_users_url_v1, no_auth_headers):
+    def test_retrieve_users_data(self, list_users_url_v1, no_auth_headers, is_email_valid):
         users_url = f"{list_users_url_v1}"
         response = requests.get(url=users_url, headers=no_auth_headers)
         assert response.status_code == HTTPStatus.OK
@@ -64,7 +54,7 @@ class TestRetrieveUsers:
         response_body = response.json()
         print("Response body: ", response_body)
 
-        assert isValid(response_body["data"][0]["email"])
+        assert is_email_valid
         assert 7 == int(response_body["data"][0]["id"])
         assert "Michael" == response_body["data"][0]["first_name"]
         assert "Lawson" == response_body["data"][0]["last_name"]
