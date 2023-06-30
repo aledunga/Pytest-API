@@ -2,19 +2,7 @@ import json
 from http import HTTPStatus
 
 import requests
-import re
 import datetime
-
-
-
-# q: is it better to leave this as a function outside the class, or inside the class as a method?
-
-def isValid(email):
-    regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
-    if re.fullmatch(regex, email):
-        return True
-    else:
-        return False
 
 
 class TestCreateUser:

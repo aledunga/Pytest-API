@@ -2,35 +2,24 @@ import json
 from http import HTTPStatus
 
 import requests
-import re
 
-
-
-# q: is it better to leave this as a function outside the class, or inside the class as a method?
-# TODO: add a conftest.py under tests folder and move function isValid there
-#TODO: put project on github + github actions
+#TODO: add a test_data class with test data for assertions
+#TODO: refine the conftest.py fixtures to make it easier to read/use
+#TODO: add github actions
 #TODO: add other endpoints tests : PUT, PATCH, DELETE
 #TODO: parametrize some tests ( like users data )
 #TODO: add endpoints with authentication tests
 
-def isValid(email):
-    regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
-    if re.fullmatch(regex, email):
-        return True
-    else:
-        return False
-
-
 class TestSingleUser:
 
-    def test_retrieve_single_user_valid_email(self, single_user_url_v1, no_auth_headers):
+    def test_retrieve_single_user_valid_email(self, single_user_url_v1, no_auth_headers, is_single_email_valid):
         user_url = f"{single_user_url_v1}"
         response = requests.get(url=user_url, headers=no_auth_headers)
         assert response.status_code == HTTPStatus.OK
 
         response_body = response.json()
         print(response_body["data"])
-        assert isValid(response_body["data"]["email"])
+        assert is_single_email_valid
 
     def test_retrieve_single_user_valid_id(self, single_user_url_v1, no_auth_headers):
         user_url = f"{single_user_url_v1}"
